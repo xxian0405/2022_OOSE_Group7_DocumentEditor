@@ -1,5 +1,14 @@
 package DocumentEditor;
 
+import Controller.DocumentEditorController;
+import Pattern.Bridge.Abstraction.DatabaseFile;
+import Pattern.Bridge.Abstraction.SavedFile;
+import Pattern.Bridge.Abstraction.TextFile;
+import Pattern.Command.*;
+import Pattern.Command.Memento.Caretaker;
+import Pattern.Command.Memento.Originator;
+import Pattern.Strategy.ModeStrategy;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -8,17 +17,13 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import Controller.DocumentEditorController;
-import Pattern.Bridge.Abstraction.DatabaseFile;
-import Pattern.Bridge.Abstraction.SavedFile;
-import Pattern.Bridge.Abstraction.TextFile;
-import Pattern.Command.*;
-import Pattern.Command.Memento.Caretaker;
-import Pattern.Command.Memento.Originator;
 
 //主畫面
 public class DocumentEditor extends JFrame implements ActionListener {
     private DocumentEditorController documentEditorController;
+
+    // This class is a Context of Strategy Pattern because it has a Strategy type object
+    private ModeStrategy strategy;
 
     private Originator originator;
     private Caretaker caretaker;
@@ -29,22 +34,26 @@ public class DocumentEditor extends JFrame implements ActionListener {
     private int current = -1; //當前caretaker中所保存的最新的位置
 
     //菜单栏
-    private JMenuBar menuBar;
+    private static JMenuBar menuBar;
     //菜单项
-    private JMenu menu_File, menu_Edit, menu_DarkModeSelector, menu_Format;
+    private static JMenu menu_File, menu_Edit, menu_DarkModeSelector, menu_Format;
+    private static JMenu[] menuGroup = new JMenu[4];
+
     //file菜单项内容
-    private JMenuItem item_new, item_newwindow, item_open, item_open_from_dataBase, item_save, item_save_to_dataBase, item_exit;
+    private static JMenuItem item_new, item_newwindow, item_open, item_open_from_dataBase, item_save, item_save_to_dataBase, item_exit;
+
     //edit菜单项内容
-    private JMenuItem item_undo, item_redo, item_cut, item_copy, item_stick, item_delete;
+    private static JMenuItem item_undo, item_redo, item_cut, item_copy, item_stick, item_delete;
 
     //format菜单项内容
-    private JMenuItem item_word_format;
+    private static JMenuItem item_word_format;
 
     //深色模式菜單項內容
-    private JMenuItem dark_Mode;
+    private static JMenuItem dark_Mode;
+    private static JMenuItem[] menuItemsGroup = new JMenuItem[15];
 
     //文本区域
-    private static JTextPane edit_text_area;    //設為static是因為要在其他彈窗(改style或要將資料庫中讀出的內容寫入)時呼叫
+    private static JTextPane edit_text_area;
     //文本滚动条
     private JScrollPane scroll_bar;
 
@@ -238,7 +247,7 @@ public class DocumentEditor extends JFrame implements ActionListener {
             invoker.InvokeCommand(current);
             current--;
 
-            // (還沒測試)Line:246跟252好像在undo/redo後也會將異動結果新增到Memento(因為undo/redo畫面也會動，可能會觸發edit_text_area的事件)
+            // (還沒測試)Line:248跟254好像在undo/redo後也會將異動結果新增到Memento(因為undo/redo畫面也會動，可能會觸發edit_text_area的事件)
             // 所以要將執行undo/redo時加入的Memento移除
             caretaker.RemoveMemento(caretaker.GetMementoAmount() - 1);
         }
@@ -261,7 +270,8 @@ public class DocumentEditor extends JFrame implements ActionListener {
             edit_text_area.replaceSelection("");
         }
         else if (e.getSource() == dark_Mode) {
-            documentEditorController.ChangeColorMode();
+            strategy = documentEditorController.ChangeColorMode();
+            strategy.ChangeBackgroundMode();
         }
     }
 
@@ -312,7 +322,39 @@ public class DocumentEditor extends JFrame implements ActionListener {
     }
 
     public static JTextPane getEdit_text_area() {
-        //返回文本编辑区给其他窗口
         return edit_text_area;
+    }
+
+    public static JMenuBar GetMenuBar(){
+        return menuBar;
+    }
+
+    public static JMenu[] GetMenuGroup(){
+        menuGroup[0] = menu_File;
+        menuGroup[1] = menu_Edit;
+        menuGroup[2] = menu_Format;
+        menuGroup[3] = menu_DarkModeSelector;
+
+        return menuGroup;
+    }
+
+    public static JMenuItem[] GetMenuItemsGroup(){
+        menuItemsGroup[0] = item_new;
+        menuItemsGroup[1] = item_newwindow;
+        menuItemsGroup[2] = item_open;
+        menuItemsGroup[3] = item_open_from_dataBase;
+        menuItemsGroup[4] = item_save;
+        menuItemsGroup[5] = item_save_to_dataBase;
+        menuItemsGroup[6] = item_exit;
+        menuItemsGroup[7] = item_undo;
+        menuItemsGroup[8] = item_redo;
+        menuItemsGroup[9] = item_cut;
+        menuItemsGroup[10] = item_copy;
+        menuItemsGroup[11] = item_stick;
+        menuItemsGroup[12] = item_delete;
+        menuItemsGroup[13] = item_word_format;
+        menuItemsGroup[14] = dark_Mode;
+
+        return menuItemsGroup;
     }
 }

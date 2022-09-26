@@ -26,28 +26,25 @@ public class DocumentEditorController {
 
     /*
     * Strategy And Factory Method Pattern
-    * According to Context(currentBackgroundColor), to choose which Color Mode we want the Factory to create.
+    * According to Context(DocumentEditor), to choose which Color Mode we want the Factory to create.
     */
-    public void ChangeColorMode(){
-        ModeStrategy strategy = null;
+    public ModeStrategy ChangeColorMode(){
         Color currentBackgroundColor = DocumentEditor.getEdit_text_area().getBackground();
-        ModeFactory factory;
+        ModeFactory factory = null;
 
         switch (currentBackgroundColor.getRGB()) {
             // After we get background, we can use method getRGB() to get an integer represent background
             case -1:
                 // -1 represent white background
                 factory = new DarkModeFactory();
-                strategy = factory.CreateBackgroundMode();
                 break;
             case -12566464:
                 // -12566464 represent dark gray background
                 factory = new LightModeFactory();
-                strategy = factory.CreateBackgroundMode();
                 break;
         }
 
-        strategy.ChangeBackgroundMode();
+        return factory.CreateBackgroundMode();
     }
 
     //Save file to Database via FileSaveService
