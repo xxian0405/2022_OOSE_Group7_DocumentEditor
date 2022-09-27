@@ -31,6 +31,7 @@ public class DocumentEditor extends JFrame implements ActionListener {
     private Receiver receiver;
     private Command undoCommand, redoCommand;
     private SavedFile savedFile;
+
     private int current = -1; //當前caretaker中所保存的最新的位置
 
     //選單列
@@ -57,6 +58,8 @@ public class DocumentEditor extends JFrame implements ActionListener {
 
     //文字輸入的地方
     private static JTextPane edit_text_area;
+
+    private static JTextPane count_words;
     //輸入區域滾輪
     private static JScrollPane scroll_bar;
 
@@ -81,6 +84,8 @@ public class DocumentEditor extends JFrame implements ActionListener {
         initMenuBar();
         initEditText();
         initListener();
+        countWords();
+        count();
 
         this.setJMenuBar(menuBar);
         this.setSize(800,600);
@@ -175,6 +180,19 @@ public class DocumentEditor extends JFrame implements ActionListener {
         scroll_bar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         clipboard = this.getToolkit().getSystemClipboard();//建立剪貼簿
+    }
+    private void countWords(){
+        count_words = new JTextPane();
+        count_words.setSize(50,50);
+        count_words.setEditable(false);
+        count_words.setFont(new Font(Font.SERIF, Font.PLAIN,  15));
+        this.add(count_words,BorderLayout.SOUTH);
+    }
+
+    private void count(){ //數字數
+        String words;
+        words = edit_text_area.getText();
+        count_words.setText("總共有"+ words.length()+"個字");
     }
 
     //開啟檔案
@@ -305,17 +323,20 @@ public class DocumentEditor extends JFrame implements ActionListener {
                 // 畫面上每輸入一個字，就要保存一次state到originator中
                 originator.SetState(edit_text_area.getFont(), edit_text_area.getText(), edit_text_area.getForeground());
 
+
                 // 並透過originator產生一個Memento並交由caretaker保管
                 caretaker.AddMemento(originator.CreateMemento());
 
                 // 更新caretaker當前的位置
                 current++;
+                count();
             }
 
             // 在textArea上backspace或delete時
             @Override
             public void removeUpdate(DocumentEvent e) {
                 current--;
+                count();
             }
 
             @Override
