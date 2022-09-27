@@ -29,19 +29,14 @@ public class DocumentEditorController {
     * According to Context(DocumentEditor), to choose which Color Mode we want the Factory to create.
     */
     public ModeStrategy ChangeColorMode(){
-        Color currentBackgroundColor = DocumentEditor.getEdit_text_area().getBackground();
         ModeFactory factory = null;
 
-        switch (currentBackgroundColor.getRGB()) {
-            // After we get background, we can use method getRGB() to get an integer represent background
-            case -1:
-                // -1 represent white background
-                factory = new DarkModeFactory();
-                break;
-            case -12566464:
-                // -12566464 represent dark gray background
-                factory = new LightModeFactory();
-                break;
+        if(DocumentEditor.IsNowDarkMode()){
+            factory = new LightModeFactory();
+            DocumentEditor.SetIsNowDarkMode(false);
+        }else{
+            factory = new DarkModeFactory();
+            DocumentEditor.SetIsNowDarkMode(true);
         }
 
         return factory.CreateBackgroundMode();

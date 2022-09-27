@@ -15,7 +15,7 @@ public class SaveAsTextFile implements FileSave {
     public void SaveFile(){
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showSaveDialog(new JFrame());
-        if (result == JFileChooser.APPROVE_OPTION) {
+        if (result == JFileChooser.APPROVE_OPTION) {//click ok
             File file = fileChooser.getSelectedFile();
 
             if (file == null) {
@@ -29,7 +29,7 @@ public class SaveAsTextFile implements FileSave {
             try {
                 fileChooser.setCurrentDirectory(file);
                 DocumentEditor.getEdit_text_area().write(new OutputStreamWriter(new FileOutputStream(file),
-                        "utf-8"));
+                        "utf-8"));//把文字寫到檔案裡面
             } catch (Exception e) {
                 e.printStackTrace();
             }

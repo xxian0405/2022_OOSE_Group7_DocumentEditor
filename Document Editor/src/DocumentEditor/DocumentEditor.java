@@ -33,33 +33,36 @@ public class DocumentEditor extends JFrame implements ActionListener {
     private SavedFile savedFile;
     private int current = -1; //當前caretaker中所保存的最新的位置
 
-    //菜单栏
+    //選單列
     private static JMenuBar menuBar;
-    //菜单项
+    //選單項
     private static JMenu menu_File, menu_Edit, menu_DarkModeSelector, menu_Format;
     private static JMenu[] menuGroup = new JMenu[4];
 
-    //file菜单项内容
+    //file選單項內容
     private static JMenuItem item_new, item_newwindow, item_open, item_open_from_dataBase, item_save, item_save_to_dataBase, item_exit;
 
-    //edit菜单项内容
+    //edit選單項內容
     private static JMenuItem item_undo, item_redo, item_cut, item_copy, item_stick, item_delete;
 
-    //format菜单项内容
+    //format選單項内容
     private static JMenuItem item_word_format;
 
-    //深色模式菜單項內容
+    //深色模式選單項內容
     private static JMenuItem dark_Mode;
+
+    //記錄當下是否為深色模式
+    private static boolean isDarkMode = false;
     private static JMenuItem[] menuItemsGroup = new JMenuItem[15];
 
-    //文本区域
+    //文字輸入的地方
     private static JTextPane edit_text_area;
-    //文本滚动条
-    private JScrollPane scroll_bar;
+    //輸入區域滾輪
+    private static JScrollPane scroll_bar;
 
     //系统剪切板
     private Clipboard clipboard;
-    //文件选择器
+    //文件選擇器
     private JFileChooser fileChooser;
 
     public DocumentEditor()
@@ -82,10 +85,10 @@ public class DocumentEditor extends JFrame implements ActionListener {
         this.setJMenuBar(menuBar);
         this.setSize(800,600);
         this.add(scroll_bar);
-        this.setTitle("文件編輯器");
+        this.setTitle("G7 Document Editor");
         this.setVisible(true);
-        this.setLocationRelativeTo(null);	//窗体位于正中间位置
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	// EXIT_ON_CLOSE  https://www.cnblogs.com/lihaiming93/p/4752422.html 后续还要改，加上退出询问
+        this.setLocationRelativeTo(null);	//設定視窗位於畫面最中央
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	// EXIT_ON_CLOSE
 
         originator.SetState(edit_text_area.getFont(), "", Color.BLACK);
         caretaker.AddMemento(originator.CreateMemento());
@@ -95,18 +98,18 @@ public class DocumentEditor extends JFrame implements ActionListener {
     //初始化選單列
     private void initMenuBar() {
 
-        //初始化菜单栏
+        //初始化選單列
         menuBar = new JMenuBar();
 
-        //file菜单项
+        //file選單項
         menu_File = new JMenu("文件(F)");
-        menu_File.setMnemonic('f');		// 设置快捷键-alt+f:打开 - 也可以传入KeyEvent.VK_F
-        item_new = new JMenuItem("新建");
-        item_newwindow = new JMenuItem("新窗口");
-        item_open = new JMenuItem("打开");
+        menu_File.setMnemonic('f');
+        item_new = new JMenuItem("開新文件");
+        item_newwindow = new JMenuItem("新視窗");
+        item_open = new JMenuItem("開啟");
         item_open_from_dataBase = new JMenuItem("從資料庫開啟");
-        item_save = new JMenuItem("保存");
-        item_save.setAccelerator(KeyStroke.getKeyStroke('S',java.awt.Event.CTRL_MASK,false));//给item添加快捷键 CTRL_MASK = ctrl键
+        item_save = new JMenuItem("存檔");
+        item_save.setAccelerator(KeyStroke.getKeyStroke('S',java.awt.Event.CTRL_MASK,false));
         item_save_to_dataBase = new JMenuItem("存檔至資料庫");
         item_exit = new JMenuItem("退出");
         menu_File.add(item_new);
@@ -117,23 +120,23 @@ public class DocumentEditor extends JFrame implements ActionListener {
         menu_File.add(item_save_to_dataBase);
         menu_File.add(item_exit);
 
-        //edit菜单项
-        menu_Edit = new JMenu("编辑(E)");
+        //edit選單項
+        menu_Edit = new JMenu("編輯(E)");
         menu_Edit.setMnemonic('e');
 
-        item_undo = new JMenuItem("撤销");
+        item_undo = new JMenuItem("上一步");
         item_undo.setAccelerator(KeyStroke.getKeyStroke('Z',java.awt.Event.CTRL_MASK,false));
 
-        item_redo = new JMenuItem("恢复");
+        item_redo = new JMenuItem("下一步");
         item_redo.setAccelerator(KeyStroke.getKeyStroke('Y',java.awt.Event.CTRL_MASK,false));
 
-        item_cut = new JMenuItem("剪切");
+        item_cut = new JMenuItem("剪下");
         item_cut.setAccelerator(KeyStroke.getKeyStroke('X',java.awt.Event.CTRL_MASK,false));
 
-        item_copy = new JMenuItem("复制");
+        item_copy = new JMenuItem("複製");
         item_copy.setAccelerator(KeyStroke.getKeyStroke('C',java.awt.Event.CTRL_MASK,false));
 
-        item_stick = new JMenuItem("粘贴");
+        item_stick = new JMenuItem("貼下");
         item_stick.setAccelerator(KeyStroke.getKeyStroke('V',java.awt.Event.CTRL_MASK,false));
 
         item_delete = new JMenuItem("删除");
@@ -144,11 +147,11 @@ public class DocumentEditor extends JFrame implements ActionListener {
         menu_Edit.add(item_stick);
         menu_Edit.add(item_delete);
 
-        //format菜单项
+        //format選單項
         menu_Format = new JMenu("格式(O)");
         menu_Format.setMnemonic('o');
-        item_word_format = new JMenuItem("字体(F)");			//CTRL_MASK = ctrl键
-        item_word_format.setAccelerator(KeyStroke.getKeyStroke('F',java.awt.Event.CTRL_MASK,false));//给item添加快捷键
+        item_word_format = new JMenuItem("字體(F)");			//CTRL_MASK = ctrl键
+        item_word_format.setAccelerator(KeyStroke.getKeyStroke('F',java.awt.Event.CTRL_MASK,false));
         menu_Format.add(item_word_format);
 
         //深色模式菜單項
@@ -156,7 +159,7 @@ public class DocumentEditor extends JFrame implements ActionListener {
         dark_Mode = new JMenuItem("模式切換");
         menu_DarkModeSelector.add(dark_Mode);
 
-        //加入菜单栏
+        //把選單項加到選單列中
         menuBar.add(menu_File);
         menuBar.add(menu_Edit);
         menuBar.add(menu_Format);
@@ -171,7 +174,7 @@ public class DocumentEditor extends JFrame implements ActionListener {
         scroll_bar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scroll_bar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-        clipboard = this.getToolkit().getSystemClipboard();
+        clipboard = this.getToolkit().getSystemClipboard();//建立剪貼簿
     }
 
     //開啟檔案
@@ -183,9 +186,9 @@ public class DocumentEditor extends JFrame implements ActionListener {
         result = fileChooser.showOpenDialog(rootPane);
 
         if(result == JFileChooser.APPROVE_OPTION) {
-            file = fileChooser.getSelectedFile(); // 若点击了确定按钮，给file填文件路径
+            file = fileChooser.getSelectedFile(); // 若點擊了確定按鈕，把路徑傳給file
         }
-        else return;	//按取消键后不会运行下面代码
+        else return;	//按取消鍵後不會執行下面程式碼
 
         if(file.isFile() && file.exists()) {
             try {
@@ -209,31 +212,30 @@ public class DocumentEditor extends JFrame implements ActionListener {
     //選單內容onClick事件
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
-        //https://zhidao.baidu.com/question/2204274734088183468.html
 
         if (e.getSource()==item_word_format) {
             new AboutFormat();
         }
         else if (e.getSource()==item_new) {
-            savedFile = new TextFile(edit_text_area.getText());
+            savedFile = new TextFile();
             savedFile.SaveFile();
             new DocumentEditor();
             this.dispose();
         }
         else if (e.getSource()==item_newwindow) {
-            new DocumentEditor();		//添加新窗口，父窗口不会退出
+            new DocumentEditor();		//添加新視窗，父視窗不會退出
         }
         else if (e.getSource()==item_exit){
-            savedFile = new TextFile(edit_text_area.getText());
+            savedFile = new TextFile();
             savedFile.SaveFile();
-            this.dispose();			//退出询问(目前有无更改都会弹出保存窗口)
+            this.dispose();			//退出詢問(有無更改都會跳出)
         }
         else if (e.getSource()==item_save) {
-            savedFile = new TextFile(edit_text_area.getText());
+            savedFile = new TextFile();
             savedFile.SaveFile();
         }
         else if(e.getSource()==item_save_to_dataBase){
-            savedFile = new DatabaseFile(edit_text_area.getText());
+            savedFile = new DatabaseFile();
             savedFile.SaveFile();
         }
         else if (e.getSource()==item_open) {
@@ -242,16 +244,16 @@ public class DocumentEditor extends JFrame implements ActionListener {
         else if (e.getSource()==item_open_from_dataBase) {
             new SelectFileFromDatabase();
         }
-        else if (e.getSource()==item_undo && current > -1) {		//撤销可以撤销是撤销上一步文本操作
+        else if (e.getSource()==item_undo && current > -1) {		//如果可以undo,才執行
             invoker.SetCommand(undoCommand);
-            invoker.InvokeCommand(current);
+            invoker.InvokeCommand(current);//觸發undo
             current--;
 
-            // (還沒測試)Line:248跟254好像在undo/redo後也會將異動結果新增到Memento(因為undo/redo畫面也會動，可能會觸發edit_text_area的事件)
+            // (還沒測試)Line:254跟260好像在undo/redo後也會將異動結果新增到Memento(因為undo/redo畫面也會動，可能會觸發edit_text_area的事件)
             // 所以要將執行undo/redo時加入的Memento移除
             caretaker.RemoveMemento(caretaker.GetMementoAmount() - 1);
         }
-        else if (e.getSource()==item_redo && current > -1) {		//恢复就是恢复上一步文本操作(需要被撤销)
+        else if (e.getSource()==item_redo && current > -1) {
             invoker.SetCommand(redoCommand);
             invoker.InvokeCommand(current);
             current++;
@@ -278,7 +280,7 @@ public class DocumentEditor extends JFrame implements ActionListener {
     //初始化選單內容事件監聽
     public void initListener()
     {
-        // 菜单iter监听
+        // 選單item監聽
         item_new.addActionListener(this);
         item_newwindow.addActionListener(this);
         item_open.addActionListener(this);
@@ -325,10 +327,12 @@ public class DocumentEditor extends JFrame implements ActionListener {
         return edit_text_area;
     }
 
+    //取得MenuBar，目前用於深色模式功能
     public static JMenuBar GetMenuBar(){
         return menuBar;
     }
 
+    //取得所有Menu，可一次操作所有Menu，目前用於深色模式功能
     public static JMenu[] GetMenuGroup(){
         menuGroup[0] = menu_File;
         menuGroup[1] = menu_Edit;
@@ -338,6 +342,7 @@ public class DocumentEditor extends JFrame implements ActionListener {
         return menuGroup;
     }
 
+    //取得所有MenuItem，可一次操作所有MenuItem，目前用於深色模式功能
     public static JMenuItem[] GetMenuItemsGroup(){
         menuItemsGroup[0] = item_new;
         menuItemsGroup[1] = item_newwindow;
@@ -356,5 +361,19 @@ public class DocumentEditor extends JFrame implements ActionListener {
         menuItemsGroup[14] = dark_Mode;
 
         return menuItemsGroup;
+    }
+
+    public static JScrollPane GetScrollBar(){
+        return scroll_bar;
+    }
+
+    //確認當前是否為深色模式
+    public static boolean IsNowDarkMode(){
+        return isDarkMode;
+    }
+
+    //修改當前是否為深色模式
+    public static void SetIsNowDarkMode(boolean flag){
+        isDarkMode = flag;
     }
 }

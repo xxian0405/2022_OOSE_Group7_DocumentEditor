@@ -14,7 +14,7 @@ public class FileSaveService {
         // use String.format() to prevent SQL Injection
         String sql = String.format("INSERT INTO FileStorage (FileName, FileContent) VALUES ('%s', '%s')", fileName, fileContent);
 
-        try (Connection connection = DriverManager.getConnection(connectionString);
+        try (Connection connection = DriverManager.getConnection(connectionString);//建立連線
              PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
 
             preparedStatement.execute();
@@ -35,12 +35,13 @@ public class FileSaveService {
                 Statement statement = connection.createStatement();){
 
             resultSet = statement.executeQuery(sql); //執行sql後會把取得的資料塞到resultSet中
-            connection.close();
 
             // 透過迴圈把屬性塞入Aggregate裡，可再透過iterator取用
             while(resultSet.next()){
                 files.Add(new FileFromDatabase(resultSet.getInt("FileNumber"), resultSet.getNString("FileName"), resultSet.getNString("FileContent")));
             }
+
+            connection.close();
 
         }catch (SQLException e){
             e.printStackTrace();

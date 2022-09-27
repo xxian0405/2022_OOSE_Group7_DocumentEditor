@@ -7,12 +7,10 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-//TEXTAREA 行号显示插件
-public class LineNumberHeaderView extends javax.swing.JComponent {		//貌似就是Notepad++行号显示的实现类
 
-    /**
-     * JAVA TextArea行数显示插件
-     */
+public class LineNumberHeaderView extends javax.swing.JComponent {
+
+
     private static final long serialVersionUID = 1L;
     private final  Font DEFAULT_FONT = new Font(Font.MONOSPACED, Font.PLAIN, 11);
     public final Color DEFAULT_BACKGROUD = new Color(228, 228, 228);

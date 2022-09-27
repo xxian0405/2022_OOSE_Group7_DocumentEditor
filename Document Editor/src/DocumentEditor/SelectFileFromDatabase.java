@@ -28,6 +28,11 @@ public class SelectFileFromDatabase extends JFrame implements ActionListener {
 
         initData(); //才可以initData(因為要先有iterator才可以把資料塞進二維陣列中)
         initAll(); //接著才可以initAll(因為二維陣列中要先有資料才可以把資料放進table中)
+
+        if(DocumentEditor.IsNowDarkMode()){
+            this.OpenWithDarkMode();
+        }
+
         this.setSize(500, 200);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
@@ -136,5 +141,22 @@ public class SelectFileFromDatabase extends JFrame implements ActionListener {
     //取得被選取的檔案的檔案編號
     private int GetSelectedFileNumber(){
         return Integer.valueOf(table.getValueAt(table.getSelectedRow(), 0).toString());
+    }
+
+    //以深色模式開啟
+    private void OpenWithDarkMode(){
+        table.setBackground(Color.DARK_GRAY);
+        table.setForeground(Color.WHITE);
+
+        scrollBar.getVerticalScrollBar().setBackground(Color.DARK_GRAY);
+
+        btn_Choose.setBackground(Color.DARK_GRAY);
+        btn_Choose.setForeground(Color.WHITE);
+        btn_Delete.setBackground(Color.DARK_GRAY);
+        btn_Delete.setForeground(Color.WHITE);
+        btn_Cancle.setBackground(Color.DARK_GRAY);
+        btn_Cancle.setForeground(Color.WHITE);
+
+        button_Panel.setBackground(Color.DARK_GRAY);
     }
 }

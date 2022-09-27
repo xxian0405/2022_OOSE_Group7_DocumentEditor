@@ -38,6 +38,10 @@ public class SaveToDatabase extends JFrame implements FileSave, ActionListener {
         btn_Panel.add(btn_Ok, BorderLayout.SOUTH);
         btn_Panel.add(btn_Cancle, BorderLayout.SOUTH);
 
+        if(DocumentEditor.IsNowDarkMode()){
+            this.OpenWithDarkMode();
+        }
+
         this.add(panel, BorderLayout.CENTER);
         this.add(btn_Panel, BorderLayout.SOUTH);
         this.setSize(400,100);
@@ -75,5 +79,21 @@ public class SaveToDatabase extends JFrame implements FileSave, ActionListener {
             DocumentEditorController.GetController().SaveFileToDatabase(file_Name.getText(), DocumentEditor.getEdit_text_area().getText());
             this.dispose();
         }
+    }
+
+    //以深色模式開啟
+    private void OpenWithDarkMode(){
+        panel.setBackground(Color.DARK_GRAY);
+
+        btn_Ok.setBackground(Color.DARK_GRAY);
+        btn_Ok.setForeground(Color.WHITE);
+        btn_Cancle.setBackground(Color.DARK_GRAY);
+        btn_Cancle.setForeground(Color.WHITE);
+        btn_Panel.setBackground(Color.DARK_GRAY);
+
+        title.setForeground(Color.WHITE);
+
+        file_Name.setBackground(Color.DARK_GRAY);
+        file_Name.setForeground(Color.WHITE);
     }
 }

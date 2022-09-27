@@ -18,11 +18,10 @@ import java.util.*;
 public class AboutFormat extends JFrame implements ItemListener, ActionListener {
 
     private JComboBox choose_word_style, choose_word_big, choose_word_pattern, choose_word_color;    //下拉列表
+    private JLabel style_label, size_label, pattern_label, color_label;
 
     private JPanel paneNorth;//用于装四个ComboBox
     private JPanel paneSouth;//用来装按钮
-
-    private JTextField showText;//演示文本
 
     private JButton btn_ok, btn_cancel;
 
@@ -39,7 +38,11 @@ public class AboutFormat extends JFrame implements ItemListener, ActionListener 
         initListener();
         addBtnListener();
 
-        this.setSize(550,240);
+        if(DocumentEditor.IsNowDarkMode()){
+            this.OpenWithDarkMode();
+        }
+
+        this.setSize(550,120);
         this.setTitle("文字格式");
         this.setVisible(true);
         this.setLocationRelativeTo(null);
@@ -48,13 +51,13 @@ public class AboutFormat extends JFrame implements ItemListener, ActionListener 
 
     // 註冊按鈕事件監聽
     private void addBtnListener() {
-        // TODO Auto-generated method stub		//注册按钮监听
+        // TODO Auto-generated method stub
         btn_cancel.addActionListener(this);
         btn_ok.addActionListener(this);
     }
 
     // 註冊下拉選單事件監聽
-    private void initListener() {		//注册下拉框监听
+    private void initListener() {
         // TODO Auto-generated method stub
         choose_word_style.addItemListener(this);
         choose_word_big.addItemListener(this);
@@ -65,47 +68,51 @@ public class AboutFormat extends JFrame implements ItemListener, ActionListener 
     //按鈕初始化
     private void initButton() {
         // TODO Auto-generated method stub
-        btn_ok = new JButton("OK");
-        btn_cancel = new JButton("CANCEL");
+        btn_ok = new JButton("套用");
+        btn_cancel = new JButton("取消");
     }
 
     /**
      * 初始化布局
-     * 将每个控件按照一定得布局排在this窗口中
+     * 將每個物件按照一定的布局排在this窗口中
      */
     public void initLocation() {
         paneNorth = new JPanel();
         Iterator<WordStyleMenu> iterator = menuComponent.GetAllChild().iterator();
 
         WordStyleMenu thisMenu = iterator.next();
-        paneNorth.add(new JLabel(thisMenu.GetStyleName() + ":"));
+        style_label = new JLabel(thisMenu.GetStyleName() + ":");
+        paneNorth.add(style_label);
         paneNorth.add(choose_word_style);
 
         thisMenu = iterator.next();
-        paneNorth.add(new JLabel(thisMenu.GetStyleName() + ":"));
+        size_label = new JLabel(thisMenu.GetStyleName() + ":");
+        paneNorth.add(size_label);
         paneNorth.add(choose_word_big);
 
         thisMenu = iterator.next();
-        paneNorth.add(new JLabel(thisMenu.GetStyleName() + ":"));
+        pattern_label = new JLabel(thisMenu.GetStyleName() + ":");
+        paneNorth.add(pattern_label);
         paneNorth.add(choose_word_pattern);
 
         thisMenu = iterator.next();
-        paneNorth.add(new JLabel(thisMenu.GetStyleName() + ":"));
+        color_label = new JLabel(thisMenu.GetStyleName() + ":");
+        paneNorth.add(color_label);
         paneNorth.add(choose_word_color);
 
-        paneNorth.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));	//让add的组件不置顶
+        paneNorth.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.add(paneNorth,BorderLayout.NORTH);
 
         paneSouth = new JPanel();
         paneSouth.add(btn_ok);
         paneSouth.add(btn_cancel);
-        this.add(paneSouth, BorderLayout.SOUTH);
+        this.add(paneSouth, BorderLayout.CENTER);
 
     }
 
     /**
-     * 初始化几个comboBox
-     * 把相应的选项加入
+     * 初始化幾個comboBox
+     * 把相應的選項加入
      */
     public void initBox() {
         Iterator<WordStyleMenu> iterator = menuComponent.GetAllChild().iterator();
@@ -175,10 +182,10 @@ public class AboutFormat extends JFrame implements ItemListener, ActionListener 
 
     //按鈕onClick事件
     @Override
-    public void actionPerformed(ActionEvent e) {	//对按钮的监听
+    public void actionPerformed(ActionEvent e) {	//對按鈕的監聽
         // TODO Auto-generated method stub
         if (e.getSource() == btn_cancel) {
-            this.dispose();//销毁当前窗口
+            this.dispose();//關閉當前視窗
         }else if (e.getSource() == btn_ok) {
             DocumentEditor.getEdit_text_area().setCharacterAttributes(simpleAttributeSet, true);
             this.dispose();
@@ -187,7 +194,7 @@ public class AboutFormat extends JFrame implements ItemListener, ActionListener 
 
     //下拉選單onChange事件
     @Override
-    public void itemStateChanged(ItemEvent e) {	//对下拉框的监听
+    public void itemStateChanged(ItemEvent e) {	//對下拉框的監聽
         // TODO Auto-generated method stub
         if (e.getItem() == "SERIF") {
             StyleConstants.setFontFamily(simpleAttributeSet, "SERIF");
@@ -238,5 +245,29 @@ public class AboutFormat extends JFrame implements ItemListener, ActionListener 
         }else if (e.getItem() == "白色") {
             StyleConstants.setForeground(simpleAttributeSet, Color.WHITE);
         }
+    }
+
+    private void OpenWithDarkMode(){
+        paneNorth.setBackground(Color.DARK_GRAY);
+        paneSouth.setBackground(Color.DARK_GRAY);
+
+        style_label.setForeground(Color.WHITE);
+        size_label.setForeground(Color.WHITE);
+        pattern_label.setForeground(Color.WHITE);
+        color_label.setForeground(Color.WHITE);
+
+        btn_ok.setForeground(Color.WHITE);
+        btn_ok.setBackground(Color.DARK_GRAY);
+        btn_cancel.setForeground(Color.WHITE);
+        btn_cancel.setBackground(Color.DARK_GRAY);
+
+        choose_word_style.setBackground(Color.DARK_GRAY);
+        choose_word_style.setForeground(Color.WHITE);
+        choose_word_big.setBackground(Color.DARK_GRAY);
+        choose_word_big.setForeground(Color.WHITE);
+        choose_word_pattern.setBackground(Color.DARK_GRAY);
+        choose_word_pattern.setForeground(Color.WHITE);
+        choose_word_color.setBackground(Color.DARK_GRAY);
+        choose_word_color.setForeground(Color.WHITE);
     }
 }
