@@ -7,8 +7,12 @@
     <list default="true" id="f95e3921-d1f7-4329-9fc6-a19f48a9d99a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Document Editor/src/DocumentEditor/DocumentEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/Document Editor/src/DocumentEditor/DocumentEditor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Document Editor/src/Pattern/Strategy/DarkMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/Document Editor/src/Pattern/Strategy/DarkMode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Document Editor/src/Pattern/Strategy/LightMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/Document Editor/src/Pattern/Strategy/LightMode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/DocumentEditor/DocumentEditor/DocumentEditor$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/DocumentEditor/DocumentEditor/DocumentEditor$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/DocumentEditor/DocumentEditor/DocumentEditor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/DocumentEditor/DocumentEditor/DocumentEditor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DocumentEditor/Pattern/Strategy/DarkMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/DocumentEditor/Pattern/Strategy/DarkMode.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DocumentEditor/Pattern/Strategy/LightMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/DocumentEditor/Pattern/Strategy/LightMode.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

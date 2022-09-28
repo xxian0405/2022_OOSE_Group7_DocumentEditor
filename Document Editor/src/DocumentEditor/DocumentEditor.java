@@ -192,9 +192,11 @@ public class DocumentEditor extends JFrame implements ActionListener {
     private void count(){ //數字數
         String words;
         words = edit_text_area.getText();
-        count_words.setText("總共有"+ words.length()+"個字");
+        count_words.setText("目前總共有"+ words.length()+"個字");
     }
-
+    public static JTextPane getCount_words() {
+        return count_words;
+    }
     //開啟檔案
     private void openFile() {
 

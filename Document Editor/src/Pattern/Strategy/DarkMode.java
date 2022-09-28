@@ -14,6 +14,9 @@ public class DarkMode extends ModeStrategy {
         DocumentEditor.GetMenuBar().setBackground(Color.DARK_GRAY);
         DocumentEditor.GetScrollBar().getVerticalScrollBar().setBackground(Color.DARK_GRAY);
         DocumentEditor.GetScrollBar().getHorizontalScrollBar().setBackground(Color.DARK_GRAY);
+        DocumentEditor.getCount_words().setBackground(Color.DARK_GRAY);
+        DocumentEditor.getCount_words().setForeground(Color.white);
+
 
         for(JMenu menu : DocumentEditor.GetMenuGroup()){
             menu.setForeground(Color.WHITE);

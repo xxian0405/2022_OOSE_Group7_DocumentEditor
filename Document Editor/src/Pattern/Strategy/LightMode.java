@@ -14,6 +14,8 @@ public class LightMode extends ModeStrategy {
         DocumentEditor.GetMenuBar().setBackground(Color.white);
         DocumentEditor.GetScrollBar().getVerticalScrollBar().setBackground(Color.WHITE);
         DocumentEditor.GetScrollBar().getHorizontalScrollBar().setBackground(Color.WHITE);
+        DocumentEditor.getCount_words().setBackground(Color.white);
+        DocumentEditor.getCount_words().setForeground(Color.black);
 
         for(JMenu menu : DocumentEditor.GetMenuGroup()){
             menu.setForeground(Color.BLACK);
