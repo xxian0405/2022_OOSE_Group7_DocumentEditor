@@ -10,5 +10,8 @@ public abstract class SavedFile {
         this.fileSave = fileSave;
     }
 
-    public abstract void SaveFile();
+    public void SaveFile(){
+        this.fileSave.SaveFile();
+    }
+
 }

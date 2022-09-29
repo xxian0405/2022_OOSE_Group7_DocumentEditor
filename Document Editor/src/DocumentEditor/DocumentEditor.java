@@ -4,6 +4,8 @@ import Controller.DocumentEditorController;
 import Pattern.Bridge.Abstraction.DatabaseFile;
 import Pattern.Bridge.Abstraction.SavedFile;
 import Pattern.Bridge.Abstraction.TextFile;
+import Pattern.Bridge.Implementor.SaveAsTextFile;
+import Pattern.Bridge.Implementor.SaveToDatabase;
 import Pattern.Command.*;
 import Pattern.Command.Memento.Caretaker;
 import Pattern.Command.Memento.Originator;
@@ -237,7 +239,7 @@ public class DocumentEditor extends JFrame implements ActionListener {
             new AboutFormat();
         }
         else if (e.getSource()==item_new) {
-            savedFile = new TextFile();
+            savedFile = new TextFile(new SaveAsTextFile());
             savedFile.SaveFile();
             new DocumentEditor();
             this.dispose();
@@ -246,16 +248,16 @@ public class DocumentEditor extends JFrame implements ActionListener {
             new DocumentEditor();		//添加新視窗，父視窗不會退出
         }
         else if (e.getSource()==item_exit){
-            savedFile = new TextFile();
+            savedFile = new TextFile(new SaveAsTextFile());
             savedFile.SaveFile();
             this.dispose();			//退出詢問(有無更改都會跳出)
         }
         else if (e.getSource()==item_save) {
-            savedFile = new TextFile();
+            savedFile = new TextFile(new SaveToDatabase());
             savedFile.SaveFile();
         }
         else if(e.getSource()==item_save_to_dataBase){
-            savedFile = new DatabaseFile();
+            savedFile = new DatabaseFile(new SaveToDatabase());
             savedFile.SaveFile();
         }
         else if (e.getSource()==item_open) {
