@@ -14,6 +14,9 @@ import Pattern.Strategy.ModeStrategy;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.event.ActionEvent;
@@ -39,8 +42,8 @@ public class DocumentEditor extends JFrame implements ActionListener {
     //選單列
     private static JMenuBar menuBar;
     //選單項
-    private static JMenu menu_File, menu_Edit, menu_DarkModeSelector, menu_Format;
-    private static JMenu[] menuGroup = new JMenu[4];
+    private static JMenu menu_File, menu_Edit, menu_DarkModeSelector, menu_Format,menu_align;
+    private static JMenu[] menuGroup = new JMenu[5];
 
     //file選單項內容
     private static JMenuItem item_new, item_newwindow, item_open, item_open_from_dataBase, item_save, item_save_to_dataBase, item_exit;
@@ -54,9 +57,14 @@ public class DocumentEditor extends JFrame implements ActionListener {
     //深色模式選單項內容
     private static JMenuItem dark_Mode;
 
+    //對其選單項內容
+    private static JMenuItem align_left;
+    private static JMenuItem align_right;
+    private static JMenuItem align_center;
+
     //記錄當下是否為深色模式
     private static boolean isDarkMode = false;
-    private static JMenuItem[] menuItemsGroup = new JMenuItem[15];
+    private static JMenuItem[] menuItemsGroup = new JMenuItem[18];
 
     //文字輸入的地方
     private static JTextPane edit_text_area;
@@ -96,6 +104,8 @@ public class DocumentEditor extends JFrame implements ActionListener {
         this.setVisible(true);
         this.setLocationRelativeTo(null);	//設定視窗位於畫面最中央
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	// EXIT_ON_CLOSE
+
+
 
         originator.SetState(edit_text_area.getFont(), "", Color.BLACK);
         caretaker.AddMemento(originator.CreateMemento());
@@ -166,11 +176,24 @@ public class DocumentEditor extends JFrame implements ActionListener {
         dark_Mode = new JMenuItem("模式切換");
         menu_DarkModeSelector.add(dark_Mode);
 
+        //對齊選單項
+        menu_align = new JMenu("對齊");
+        align_left = new JMenuItem("靠左對齊");
+        align_right = new JMenuItem("靠右對齊");
+        align_center = new JMenuItem("置中");
+        menu_align.add(align_left);
+        menu_align.add(align_center);
+        menu_align.add(align_right);
+
+
         //把選單項加到選單列中
         menuBar.add(menu_File);
         menuBar.add(menu_Edit);
         menuBar.add(menu_Format);
         menuBar.add(menu_DarkModeSelector);
+        menuBar.add(menu_align);
+
+
     }
 
     //初始化文字輸入區
@@ -296,6 +319,21 @@ public class DocumentEditor extends JFrame implements ActionListener {
         else if (e.getSource() == dark_Mode) {
             strategy = documentEditorController.ChangeColorMode();
             strategy.ChangeBackgroundMode();
+        }else if(e.getSource()==align_left){
+            StyledDocument doc = edit_text_area.getStyledDocument();
+            SimpleAttributeSet left = new SimpleAttributeSet();
+            StyleConstants.setAlignment(left,StyleConstants.ALIGN_LEFT);
+            doc.setParagraphAttributes(0,doc.getLength(),left,false);
+        }else if (e.getSource() == align_right){
+            StyledDocument doc = edit_text_area.getStyledDocument();
+            SimpleAttributeSet right = new SimpleAttributeSet();
+            StyleConstants.setAlignment(right,StyleConstants.ALIGN_RIGHT);
+            doc.setParagraphAttributes(0,doc.getLength(),right,false);
+        }else if(e.getSource()== align_center){
+            StyledDocument doc = edit_text_area.getStyledDocument();
+            SimpleAttributeSet center = new SimpleAttributeSet();
+            StyleConstants.setAlignment(center,StyleConstants.ALIGN_CENTER);
+            doc.setParagraphAttributes(0,doc.getLength(),center,false);
         }
     }
 
@@ -318,6 +356,9 @@ public class DocumentEditor extends JFrame implements ActionListener {
         item_delete.addActionListener(this);
         item_word_format.addActionListener(this);
         dark_Mode.addActionListener(this);
+        align_left.addActionListener(this);
+        align_right.addActionListener(this);
+        align_center.addActionListener(this);
 
         edit_text_area.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -363,6 +404,7 @@ public class DocumentEditor extends JFrame implements ActionListener {
         menuGroup[1] = menu_Edit;
         menuGroup[2] = menu_Format;
         menuGroup[3] = menu_DarkModeSelector;
+        menuGroup[4]= menu_align;
 
         return menuGroup;
     }
@@ -384,6 +426,9 @@ public class DocumentEditor extends JFrame implements ActionListener {
         menuItemsGroup[12] = item_delete;
         menuItemsGroup[13] = item_word_format;
         menuItemsGroup[14] = dark_Mode;
+        menuItemsGroup[15] = align_left;
+        menuItemsGroup[16] = align_right;
+        menuItemsGroup[17] = align_center;
 
         return menuItemsGroup;
     }
