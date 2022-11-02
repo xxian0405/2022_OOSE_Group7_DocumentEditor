@@ -105,11 +105,11 @@ public class DocumentEditor extends JFrame implements ActionListener {
         this.setLocationRelativeTo(null);	//設定視窗位於畫面最中央
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	// EXIT_ON_CLOSE
 
-
-
         originator.SetState(edit_text_area.getFont(), "", Color.BLACK);
         caretaker.AddMemento(originator.CreateMemento());
         current++;
+
+        scroll_bar.setRowHeaderView(new LineNumberHeaderView());
     }
 
     //初始化選單列

@@ -7,7 +7,6 @@
     <list default="true" id="f95e3921-d1f7-4329-9fc6-a19f48a9d99a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Document Editor/src/DocumentEditor/DocumentEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/Document Editor/src/DocumentEditor/DocumentEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/DocumentEditor/DocumentEditor/DocumentEditor$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/DocumentEditor/DocumentEditor/DocumentEditor$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/DocumentEditor/DocumentEditor/DocumentEditor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/DocumentEditor/DocumentEditor/DocumentEditor.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,16 +25,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/xxian/OneDrive/桌面/TW2/HomeAppliciation",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/xxian/OneDrive/桌面/TW2/HomeAppliciation&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
